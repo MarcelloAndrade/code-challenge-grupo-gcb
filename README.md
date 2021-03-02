@@ -14,6 +14,8 @@ yarn add mysql					 "^2.18.1",
 ### New migration
 yarn typeorm migration:create -n CreateDoctors  
 yarn typeorm migration:create -n CreateSpecialization
+yarn typeorm migration:create -n CreateDoctorsSpecialization
 
 ### Run migration
 yarn typeorm migration:run
+yarn typeorm migration:revert

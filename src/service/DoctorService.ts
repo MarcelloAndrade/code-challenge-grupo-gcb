@@ -1,28 +1,29 @@
 import { getCustomRepository } from "typeorm";
-import { ServiceException } from "./exception/ServiceException";
-import { Doctor } from "../models/Doctor";
 import { DoctorRepository } from "../repositories/DoctorRepository";
+import { ServiceException } from "./exception/ServiceException";
 
 class DoctorService {
     
-    async create(doctor: Doctor){
-        const doctorRepository = getCustomRepository(DoctorRepository)
+    async create(name: string, crm: number, phone: string, cell: string){
+        const doctorRepository = getCustomRepository(DoctorRepository)        
         
-        const { crm } = doctor;
-        const crmAlreadyExist = await doctorRepository.findOne({ crm });
+        const crmAlreadyExist = await doctorRepository.findOne({ crm: crm });
         if(crmAlreadyExist){
             throw new ServiceException(400, "CRM already exist.", "ERROR DoctorService > create > crmAlreadyExist");
-        }
-
-        const newDoctor = doctorRepository.create(doctor);
-        console.log("Doctor created uuid: ", newDoctor.id);
-        return await doctorRepository.save(newDoctor);
+        }        
+        const doctor = doctorRepository.create({
+            name: name,
+            crm: crm,
+            phone: phone,
+            cell: cell
+        })
+        return await doctorRepository.save(doctor);
     }
 
     async get(id: string){
         const doctorRepository = getCustomRepository(DoctorRepository)
 
-        const doctor = await doctorRepository.findOne(id);
+        const doctor = await doctorRepository.findOne({ id: id });
         if(doctor){            
             return doctor
         } else {
@@ -30,16 +31,16 @@ class DoctorService {
         }
     }
 
-    async update(id: string, doctor: Doctor) {
+    async update(id: string, name: string, crm: number, phone: string, cell: string) {
         const doctorRepository = getCustomRepository(DoctorRepository)
         
-        const updateDoctor = await doctorRepository.findOne(id);
-        if(updateDoctor){  
-            updateDoctor.name = doctor.name != null ? doctor.name : updateDoctor.name;
-            updateDoctor.crm = doctor.crm != null ? doctor.crm : updateDoctor.crm;
-            updateDoctor.phone = doctor.phone != null ? doctor.phone : updateDoctor.phone;
-            updateDoctor.cell = doctor.cell != null ? doctor.cell : updateDoctor.cell;
-            return await doctorRepository.save(updateDoctor);
+        const doctor = await doctorRepository.findOne({ id: id });
+        if(doctor){  
+            doctor.name = name != null ? name : doctor.name;
+            doctor.crm = crm != null ? crm : doctor.crm;
+            doctor.phone = phone != null ? phone : doctor.phone;
+            doctor.cell = cell != null ? cell : doctor.cell;
+            return await doctorRepository.save(doctor);
         } else {
             throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > update");
         }
@@ -48,7 +49,7 @@ class DoctorService {
     async softDelete(id: string){
         const doctorRepository = getCustomRepository(DoctorRepository)
 
-        const doctorNotExist = await doctorRepository.findOne(id);
+        const doctorNotExist = await doctorRepository.findOne({ id: id });
         if(!doctorNotExist){
             throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > softDelete > doctorNotExist");
         }  
@@ -60,7 +61,7 @@ class DoctorService {
     
     async delete(id: string){
         const doctorRepository = getCustomRepository(DoctorRepository)
-        const doctorNotExist = await doctorRepository.findOne(id);
+        const doctorNotExist = await doctorRepository.findOne({ id: id });
         if(!doctorNotExist){
             throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > delete > doctorNotExist");
         }
@@ -69,3 +70,4 @@ class DoctorService {
 }
 
 export { DoctorService };
+

@@ -14,12 +14,11 @@ class Specialization {
     @CreateDateColumn()
     created_at: Date;
 
-    constructor(name: string){ 
+    constructor(){ 
         if(!this.id){
             this.id = uuid();
-        }
-        this.name = name;        
+        }     
     }
 }
 
-export { Specialization } 
+export { Specialization };

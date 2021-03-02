@@ -27,7 +27,7 @@ describe("Doctor Test", () => {
     })
 
     it("Get a Doctor", async () => {
-        const newDoctor = await doctorService.create(new Doctor("Fernanda Oliveira", 5678921, null, null))
+        const newDoctor = await doctorService.create("Fernanda Oliveira", 5678921, null, null)
         
         const response = await request(app).get(`/doctors/${newDoctor.id}`)
         expect(response.body.name).toBe(newDoctor.name);
@@ -37,7 +37,7 @@ describe("Doctor Test", () => {
     })
 
     it("Update a Doctor", async () => {
-        const newDoctor = await doctorService.create(new Doctor("Jessica Aparecida", 6584785, null, null))
+        const newDoctor = await doctorService.create("Jessica Aparecida", 6584785, null, null)
         
         const response = await request(app).put(`/doctors/${newDoctor.id}`).send({
             name: "Jessica Aparecida Mollo",            
@@ -52,7 +52,7 @@ describe("Doctor Test", () => {
     })
     
     it("Soft Delete a Doctor", async () => {
-        const newDoctor = await doctorService.create(new Doctor("Maria de Fatima", 3245878, "15952733210", null))
+        const newDoctor = await doctorService.create("Maria de Fatima", 3245878, "15952733210", null)
         
         const response = await request(app).delete(`/doctors/${newDoctor.id}`)
         expect(response.status).toBe(200);

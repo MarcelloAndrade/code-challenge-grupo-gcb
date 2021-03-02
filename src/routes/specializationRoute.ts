@@ -7,7 +7,7 @@ const specializationService = new SpecializationService();
 
 specializationRoute.get("/specialization", async (request, response) => {
     try {
-        const all = await specializationService.find()
+        const all = await specializationService.findAll()
         return response.status(200).json(all);    
     } catch (err) {
         return getResponseError(response, err)

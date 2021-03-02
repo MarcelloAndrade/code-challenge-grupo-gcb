@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 
-@Entity("tb_doctors")
+@Entity("tb_doctor")
 class Doctor {
 
     @PrimaryColumn()
@@ -26,15 +26,11 @@ class Doctor {
     @Column()
     deleted_at: Date;
 
-    constructor(name: string, crm: number, phone: string, cell: string){ 
+    constructor(){ 
         if(!this.id){
             this.id = uuid();
         }
-        this.name = name;
-        this.crm = crm;
-        this.phone = phone;
-        this.cell = cell;
     }
 }
 
-export { Doctor } 
+export { Doctor };

@@ -3,7 +3,7 @@ import { SpecializationRepository } from "../repositories/SpecializationReposito
 
 class SpecializationService {
     
-    async find(){
+    async findAll(){
         const specializationRepository = getCustomRepository(SpecializationRepository)
         return await specializationRepository.find();
     }
