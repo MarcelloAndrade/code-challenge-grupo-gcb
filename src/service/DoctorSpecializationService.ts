@@ -24,7 +24,10 @@ class DoctorSpecializationService {
             }));                                  
         }        
         await doctorSpecializationRepository.save(newArray);
-        return doctorRepository.findOne(doctor_id); 
+        return await doctorRepository.findOne({
+            where: { id: doctor_id},
+            relations: ["specializations"]
+        }); 
     }
 }
 

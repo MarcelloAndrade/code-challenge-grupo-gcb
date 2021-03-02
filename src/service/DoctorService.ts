@@ -23,7 +23,10 @@ class DoctorService {
     async get(id: string){
         const doctorRepository = getCustomRepository(DoctorRepository)
 
-        const doctor = await doctorRepository.findOne({ id: id });
+        const doctor = await doctorRepository.findOne({ 
+            where: { id: id},
+            relations: ["specializations"]
+        });
         if(doctor){            
             return doctor
         } else {

@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  SyntaxError: D:\develop\projects-node\code-challenge-grupo-gcb\package.json: Unexpected token / in JSON at position 282
+  SyntaxError: D:\develop\projects-node\code-challenge-grupo-gcb\package.json: Unexpected token / in JSON at position 281
       at JSON.parse (<anonymous>)
       at C:\Users\marce\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
       at Generator.next (<anonymous>)
@@ -30,8 +30,7 @@ npm manifest:
     "scripts": {
       "dev": "ts-node-dev --ignore-watch node_modules src/server.ts",
       "typeorm": "ts-node-dev node_modules/typeorm/cli.js",
-      "test": "set NODE_ENV=test jest"
-      //"posttest": "VER PARA REMOVER BASE MYSQL"
+      "test": "jest --detectOpenHandles " //--silent
     },
     "dependencies": {
       "express": "^4.17.1",

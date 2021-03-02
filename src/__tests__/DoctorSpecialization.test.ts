@@ -20,7 +20,8 @@ describe("Doctor Test", () => {
         });
 
         expect(response.status).toBe(201);
-        expect(response.body).toHaveProperty("id");  
+        expect(response.body.id).toBe(newDoctor.id);
+        expect(response.body).toHaveProperty("specializations"); 
         
         await doctorService.delete(response.body.id)
     })  
@@ -31,8 +32,8 @@ describe("Doctor Test", () => {
         const response = await request(app).post(`/doctors/${newDoctor.id}/specialization`).send({
             names: ["Airplane Pilot","Cirurgia Cabeça e Pescoço"]
         });
-
-        expect(response.status).toBe(400);        
+        
+        expect(response.status).toBe(400);                
         
         await doctorService.delete(newDoctor.id)
     }) 
