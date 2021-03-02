@@ -1,6 +1,7 @@
 import request from "supertest";
 import { app } from "../app";
 import createConnection from "../database/connection"
+import { Doctor } from "../models/Doctor";
 import { DoctorService } from "../service/DoctorService";
 
 const doctorService = new DoctorService();
@@ -15,7 +16,7 @@ describe("Doctor Test", () => {
     it("Create a new Doctor", async () => {
         const response = await request(app).post("/doctors").send({
             name: "Marcus Fernandes",
-            crm: "38616",
+            crm: "1263978",
             cell: "11951732200"
         });
 
@@ -24,20 +25,42 @@ describe("Doctor Test", () => {
         
         await doctorService.delete(response.body.id)
     })
+
+    it("Get a Doctor", async () => {
+        const newDoctor = await doctorService.create(new Doctor("Fernanda Oliveira", 5678921, null, null))
+        
+        const response = await request(app).get(`/doctors/${newDoctor.id}`)
+        expect(response.body.name).toBe(newDoctor.name);
+        expect(response.body.crm).toBe(newDoctor.crm);
+
+        await doctorService.delete(newDoctor.id)
+    })
+
+    it("Update a Doctor", async () => {
+        const newDoctor = await doctorService.create(new Doctor("Jessica Aparecida", 6584785, null, null))
+        
+        const response = await request(app).put(`/doctors/${newDoctor.id}`).send({
+            name: "Jessica Aparecida Mollo",            
+            cell: "11951732232"
+        });
+        expect(response.body.name).not.toBe(newDoctor.name);
+        expect(response.body.name).toBe("Jessica Aparecida Mollo");
+        expect(response.body.crm).toBe(newDoctor.crm);
+        expect(response.body.cell).not.toBeNull();
+
+        await doctorService.delete(newDoctor.id)
+    })
     
     it("Soft Delete a Doctor", async () => {
-        const newDoctor = await request(app).post("/doctors").send({
-            name: "Maria de Fatima",
-            crm: "861623",
-            cell: "15952733210"
-        });
-        expect(newDoctor.status).toBe(201);
-
-        const response = await request(app).delete(`/doctors/${newDoctor.body.id}`)                
+        const newDoctor = await doctorService.create(new Doctor("Maria de Fatima", 3245878, "15952733210", null))
+        
+        const response = await request(app).delete(`/doctors/${newDoctor.id}`)
         expect(response.status).toBe(200);
+        
+        const getDoctor = await doctorService.get(newDoctor.id)
+        expect(getDoctor.deleted_at).not.toBeNull();
 
-        const responseDoc = await doctorService.get(response.body.id)
-        await doctorService.delete(responseDoc.id)
+        await doctorService.delete(newDoctor.id)
     })
     
 })

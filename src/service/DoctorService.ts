@@ -30,6 +30,21 @@ class DoctorService {
         }
     }
 
+    async update(id: string, doctor: Doctor) {
+        const doctorRepository = getCustomRepository(DoctorRepository)
+        
+        const updateDoctor = await doctorRepository.findOne(id);
+        if(updateDoctor){  
+            updateDoctor.name = doctor.name != null ? doctor.name : updateDoctor.name;
+            updateDoctor.crm = doctor.crm != null ? doctor.crm : updateDoctor.crm;
+            updateDoctor.phone = doctor.phone != null ? doctor.phone : updateDoctor.phone;
+            updateDoctor.cell = doctor.cell != null ? doctor.cell : updateDoctor.cell;
+            return await doctorRepository.save(updateDoctor);
+        } else {
+            throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > update");
+        }
+    }
+
     async softDelete(id: string){
         const doctorRepository = getCustomRepository(DoctorRepository)
 
