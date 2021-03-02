@@ -35,10 +35,15 @@ export class CreateDoctors1614448678378 implements MigrationInterface {
                         name: "created_at",
                         type: "timestamp",
                         default: "now()"
+                    },{
+                        name: "deleted_at",
+                        type: "timestamp",
+                        default: "null",
+                        isNullable: true
                     }
                 ]
             })
-        )
+        ), true
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

@@ -7,8 +7,8 @@
     "database": "doctors-registration",
     "logging": true,
     "entities": ["./src/models/**.ts"],
-    "migrations": ["./src/infra/migrations/**.ts"],    
+    "migrations": ["./src/database/migrations/**.ts"],    
     "cli": {
-      "migrationsDir": "./src/infra/migrations"
+      "migrationsDir": "./src/database/migrations"
     }
 }

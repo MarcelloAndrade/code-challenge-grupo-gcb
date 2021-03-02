@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { request, response, Router } from "express"
 import { Doctor } from "../models/Doctor";
 import { DoctorService } from "../service/DoctorService"
 import { getResponseError } from "../service/exception/ServiceException";
@@ -11,9 +11,29 @@ doctorRoute.post("/doctors", async (request, response) => {
         const { name, crm, phone, cell } = request.body;
         const newDoctor = await doctorService.create(new Doctor(name, crm, phone, cell))        
         return response.status(201).json(newDoctor);    
-    } catch (err) {
-        return getResponseError(response, err)
+    } catch (error) {
+        return getResponseError(response, error)
     }    
+})
+
+doctorRoute.get("/doctors/:id", async (request, response) => {
+    try {
+        const id: string = request.params.id;
+        const doctor = await doctorService.get(id)        
+        return response.status(200).json(doctor);    
+    } catch (error) {
+        return getResponseError(response, error)
+    }    
+})
+
+doctorRoute.delete("/doctors/:id", async (request, response) => {
+    try {
+        const id: string = request.params.id;
+        await doctorService.softDelete(id);
+        return response.status(200).send();
+    } catch (error) {
+        return getResponseError(response, error)
+    }
 })
 
 export { doctorRoute };

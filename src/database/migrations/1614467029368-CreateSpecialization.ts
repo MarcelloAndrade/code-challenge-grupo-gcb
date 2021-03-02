@@ -25,7 +25,7 @@ export class CreateSpecialization1614467029368 implements MigrationInterface {
                     }
                 ]
             })
-        )
+        ), true
 
         // INSERT
         await queryRunner.query(`INSERT INTO tb_specialization (id, NAME) VALUES 
