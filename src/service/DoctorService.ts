@@ -1,6 +1,6 @@
 import { getCustomRepository } from "typeorm";
 import { DoctorRepository } from "../repositories/DoctorRepository";
-import { ServiceException } from "./exception/ServiceException";
+import { ServiceError } from "./exception/ServiceError";
 
 class DoctorService {
     
@@ -9,7 +9,7 @@ class DoctorService {
         
         const crmAlreadyExist = await doctorRepository.findOne({ crm: crm });
         if(crmAlreadyExist){
-            throw new ServiceException(400, "CRM already exist.", "ERROR DoctorService > create > crmAlreadyExist");
+            throw new ServiceError(400, "CRM already exist.", "ERROR DoctorService > create > crmAlreadyExist");
         }        
         const doctor = doctorRepository.create({
             name: name,
@@ -30,7 +30,7 @@ class DoctorService {
         if(doctor){            
             return doctor
         } else {
-            throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > get > doctorNotExist");
+            throw new ServiceError(500, "Doctor not exist.", "ERROR DoctorService > get > doctorNotExist");
         }
     }
 
@@ -45,7 +45,7 @@ class DoctorService {
             doctor.cell = cell != null ? cell : doctor.cell;
             return await doctorRepository.save(doctor);
         } else {
-            throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > update");
+            throw new ServiceError(500, "Doctor not exist.", "ERROR DoctorService > update");
         }
     }
 
@@ -54,7 +54,7 @@ class DoctorService {
 
         const doctorNotExist = await doctorRepository.findOne({ id: id });
         if(!doctorNotExist){
-            throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > softDelete > doctorNotExist");
+            throw new ServiceError(500, "Doctor not exist.", "ERROR DoctorService > softDelete > doctorNotExist");
         }  
         
         doctorNotExist.deleted_at = new Date();
@@ -66,7 +66,7 @@ class DoctorService {
         const doctorRepository = getCustomRepository(DoctorRepository)
         const doctorNotExist = await doctorRepository.findOne({ id: id });
         if(!doctorNotExist){
-            throw new ServiceException(500, "Doctor not exist.", "ERROR DoctorService > delete > doctorNotExist");
+            throw new ServiceError(500, "Doctor not exist.", "ERROR DoctorService > delete > doctorNotExist");
         }
         await doctorRepository.delete(id);                
     } 
