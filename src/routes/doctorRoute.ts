@@ -5,7 +5,7 @@ import { getResponseError } from "../service/exception/ServiceException";
 const doctorRoute = Router();
 const doctorService = new DoctorService();
 
-doctorRoute.post("/doctors", async (request, response) => {
+doctorRoute.post("/doctor", async (request, response) => {
     try {
         const { name, crm, phone, cell } = request.body;
         const newDoctor = await doctorService.create(name, crm, phone, cell)        
@@ -15,7 +15,7 @@ doctorRoute.post("/doctors", async (request, response) => {
     }    
 })
 
-doctorRoute.get("/doctors/:id", async (request, response) => {
+doctorRoute.get("/doctor/:id", async (request, response) => {
     try {
         const id: string = request.params.id;
         const doctor = await doctorService.get(id)        
@@ -25,7 +25,7 @@ doctorRoute.get("/doctors/:id", async (request, response) => {
     }    
 })
 
-doctorRoute.put("/doctors/:id", async (request, response) => {
+doctorRoute.put("/doctor/:id", async (request, response) => {
     try {
         const id: string = request.params.id;
         const { name, crm, phone, cell } = request.body;
@@ -36,7 +36,7 @@ doctorRoute.put("/doctors/:id", async (request, response) => {
     }
 })
 
-doctorRoute.delete("/doctors/:id", async (request, response) => {
+doctorRoute.delete("/doctor/:id", async (request, response) => {
     try {
         const id: string = request.params.id;
         await doctorService.softDelete(id);

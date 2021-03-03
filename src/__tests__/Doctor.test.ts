@@ -1,7 +1,6 @@
 import request from "supertest";
 import { app } from "../app";
-import createConnection from "../database/connection"
-import { Doctor } from "../models/Doctor";
+import createConnection from "../database/connection";
 import { DoctorService } from "../service/DoctorService";
 
 const doctorService = new DoctorService();
@@ -14,7 +13,7 @@ describe("Doctor Test", () => {
     })  
   
     it("Create a new Doctor", async () => {
-        const response = await request(app).post("/doctors").send({
+        const response = await request(app).post("/doctor").send({
             name: "Marcus Fernandes",
             crm: "1263978",
             cell: "11951732200"
@@ -29,7 +28,7 @@ describe("Doctor Test", () => {
     it("Get a Doctor", async () => {
         const newDoctor = await doctorService.create("Fernanda Oliveira", 5678921, null, null)
         
-        const response = await request(app).get(`/doctors/${newDoctor.id}`)
+        const response = await request(app).get(`/doctor/${newDoctor.id}`)
         expect(response.body.name).toBe(newDoctor.name);
         expect(response.body.crm).toBe(newDoctor.crm);
 
@@ -39,7 +38,7 @@ describe("Doctor Test", () => {
     it("Update a Doctor", async () => {
         const newDoctor = await doctorService.create("Jessica Aparecida", 6584785, null, null)
         
-        const response = await request(app).put(`/doctors/${newDoctor.id}`).send({
+        const response = await request(app).put(`/doctor/${newDoctor.id}`).send({
             name: "Jessica Aparecida Mollo",            
             cell: "11951732232"
         });
@@ -54,7 +53,7 @@ describe("Doctor Test", () => {
     it("Soft Delete a Doctor", async () => {
         const newDoctor = await doctorService.create("Maria de Fatima", 3245878, "15952733210", null)
         
-        const response = await request(app).delete(`/doctors/${newDoctor.id}`)
+        const response = await request(app).delete(`/doctor/${newDoctor.id}`)
         expect(response.status).toBe(200);
         
         const getDoctor = await doctorService.get(newDoctor.id)

@@ -5,7 +5,7 @@ import { getResponseError } from "../service/exception/ServiceException";
 const doctorSpecializationRoute = Router();
 const doctorSpecializationService = new DoctorSpecializationService();
 
-doctorSpecializationRoute.post("/doctors/:id/specialization", async (request, response) => {
+doctorSpecializationRoute.post("/doctor/:id/specialization", async (request, response) => {
     try {
         const id: string = request.params.id;
         const { names } = request.body;        
