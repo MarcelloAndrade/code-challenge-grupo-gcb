@@ -11,6 +11,12 @@ describe("Doctor Test", () => {
         const connection = await createConnection();
         await connection.runMigrations(); 
     })  
+
+    /* afterAll(async ()=> {
+        const connection = getConnection();
+        await connection.dropDatabase();
+        await connection.close();
+    }) */
   
     it("Create a new Doctor", async () => {
         const response = await request(app).post("/doctor").send({

@@ -12,6 +12,11 @@ class DoctorSpecializationService {
         const specializationRepository = getCustomRepository(SpecializationRepository)
         const doctorRepository = getCustomRepository(DoctorRepository)
 
+        const doctorNotExist = await doctorRepository.findOne({ id: doctor_id });
+        if(!doctorNotExist){
+            throw new ServiceException(400, "Doctor already exist.", "ERROR DoctorSpecializationService > create > doctorNotExist");
+        }   
+
         var newArray: DoctorSpecialization[] = new Array();
         for (const name of names) {
             const specialization = await specializationRepository.findOne({ name: name });            

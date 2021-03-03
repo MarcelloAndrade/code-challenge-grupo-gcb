@@ -11,6 +11,12 @@ describe("Doctor Test", () => {
         const connection = await createConnection();
         await connection.runMigrations(); 
     })  
+
+    /* afterAll(async ()=> {
+        const connection = getConnection();
+        await connection.dropDatabase();
+        await connection.close();
+    }) */
   
     it("Binds Specialization with Doctor", async () => {
         const newDoctor = await doctorService.create("Fernanda Oliveira", 5678921, null, null)
